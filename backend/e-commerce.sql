@@ -1,8 +1,8 @@
--- MariaDB dump 10.19  Distrib 10.8.4-MariaDB, for Linux (x86_64)
+-- MariaDB dump 10.19  Distrib 10.9.3-MariaDB, for Linux (x86_64)
 --
 -- Host: localhost    Database: e-commerce
 -- ------------------------------------------------------
--- Server version	10.8.4-MariaDB-log
+-- Server version	10.9.3-MariaDB-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -47,6 +47,9 @@ CREATE TABLE `categories` (
 LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
 INSERT INTO `categories` VALUES
+(1,'Motherboard','motherboard'),
+(2,'Cpu','cpu'),
+(3,'Maison','maison'),
 (5,'Iwatch','i-watch'),
 (7,'Ipad','ipad'),
 (8,'MacBook','macbook');
@@ -75,19 +78,8 @@ CREATE TABLE `doctrine_migration_versions` (
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
 INSERT INTO `doctrine_migration_versions` VALUES
-('DoctrineMigrations\\Version20220711144838','2022-07-11 14:49:17',115),
-('DoctrineMigrations\\Version20220712191445','2022-07-12 19:15:09',126),
-('DoctrineMigrations\\Version20220712192846','2022-07-12 19:28:51',106),
-('DoctrineMigrations\\Version20220712193207','2022-07-12 19:32:13',150),
-('DoctrineMigrations\\Version20220712194903','2022-07-12 19:49:10',156),
-('DoctrineMigrations\\Version20220712195412','2022-07-12 19:54:18',110),
-('DoctrineMigrations\\Version20220715214940','2022-07-15 21:49:55',210),
-('DoctrineMigrations\\Version20220716190027','2022-07-16 19:00:37',365),
-('DoctrineMigrations\\Version20220716211919','2022-07-16 21:19:44',247),
-('DoctrineMigrations\\Version20220723221730','2022-07-23 22:17:45',646),
-('DoctrineMigrations\\Version20220725080632','2022-07-25 08:06:41',225),
-('DoctrineMigrations\\Version20220824121604','2022-08-24 14:16:17',97),
-('DoctrineMigrations\\Version20220824124747','2022-08-24 14:48:03',119);
+('DoctrineMigrations\\Version20221106182536','2022-07-11 14:49:17',115),
+('DoctrineMigrations\\Version20221106183049','2022-07-12 19:15:09',119);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,7 +185,7 @@ CREATE TABLE `notation` (
   KEY `IDX_268BC959D86650F` (`user_id_id`),
   CONSTRAINT `FK_268BC959D86650F` FOREIGN KEY (`user_id_id`) REFERENCES `user` (`id`),
   CONSTRAINT `FK_268BC95DE18E50B` FOREIGN KEY (`product_id_id`) REFERENCES `product` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +198,9 @@ INSERT INTO `notation` VALUES
 (2,254,'2022-08-24 14:48:27',NULL,NULL,4,72),
 (3,254,'2022-08-24 11:49:53','string','string',3,72),
 (4,254,'2022-08-24 12:54:48','string','string',4,72),
-(5,254,'2022-08-24 12:54:56','string','string',2,72);
+(5,254,'2022-08-24 12:54:56','string','string',2,72),
+(6,330,'2022-11-02 18:33:14','string','string',4,72),
+(7,332,'2022-11-06 16:41:04','string','string',5,72);
 /*!40000 ALTER TABLE `notation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -224,7 +218,7 @@ CREATE TABLE `orders` (
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `IDX_E52FFDEEA76ED395` (`user_id`),
-  CONSTRAINT `FK_E52FFDEEA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `FK_E52FFDEEA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=164 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -235,9 +229,6 @@ CREATE TABLE `orders` (
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
 INSERT INTO `orders` VALUES
-(158,45,'string','2022-08-15 18:18:29'),
-(159,45,'84fdc2ed','2022-08-15 18:25:37'),
-(160,45,'84c93d30','2022-08-15 18:58:25'),
 (161,72,'3e774393','2022-08-15 18:44:23'),
 (162,72,'3538df93','2022-08-15 18:44:23'),
 (163,72,'27fa27e2','2022-08-24 09:46:23');
@@ -261,7 +252,7 @@ CREATE TABLE `orders_details` (
   KEY `IDX_835379F1CFFE9AD6` (`orders_id`),
   KEY `IDX_835379F14584665A` (`product_id`),
   CONSTRAINT `FK_835379F14584665A` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
-  CONSTRAINT `FK_835379F1CFFE9AD6` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`id`)
+  CONSTRAINT `FK_835379F1CFFE9AD6` FOREIGN KEY (`orders_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -272,13 +263,6 @@ CREATE TABLE `orders_details` (
 LOCK TABLES `orders_details` WRITE;
 /*!40000 ALTER TABLE `orders_details` DISABLE KEYS */;
 INSERT INTO `orders_details` VALUES
-(80,118,1,77,159),
-(81,128,2,629,160),
-(82,118,1,77,160),
-(83,112,1,16,160),
-(84,102,1,77,160),
-(85,103,1,84,160),
-(86,104,1,16,160),
 (87,118,1,77,161),
 (88,118,1,77,162),
 (89,128,1,629,162),
@@ -309,7 +293,7 @@ CREATE TABLE `product` (
   KEY `IDX_D34A04AD3DA5256D` (`image_id`),
   CONSTRAINT `FK_D34A04AD3DA5256D` FOREIGN KEY (`image_id`) REFERENCES `media_object` (`id`),
   CONSTRAINT `FK_D34A04ADA21214B7` FOREIGN KEY (`categories_id`) REFERENCES `categories` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=255 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=333 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -319,7 +303,16 @@ CREATE TABLE `product` (
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
 INSERT INTO `product` VALUES
+(1,'Taylor Garza','Fuga Maiores ipsum ','Qui minus delectus ',0,60,2,45,5),
+(2,'Dara Bowen','Rerum accusamus ipsa','Perferendis lorem au',83,71,1,45,0),
+(3,'Grady Underwood','Minim ut aut necessi','Amet aute unde est ',23,10,1,45,0),
+(9,'c\'est le test','c_es_t_le_test_','de la vie',987.65,22,5,45,0),
+(72,'Eden Goff','Adipisicing et eius ','Enim aut ut reprehen',8,25,3,45,7),
+(73,'Other keyboard','Other keyboard','il marche bien',20,5,3,45,0),
+(74,'Logitech - Super RGB','Logitech - Super RGB','il marche bien',20,5,3,45,2),
+(75,'Ultra mouse3000','Ultra mouse3000','il marche bien',20,5,3,45,0),
 (83,'September Barlow','Enim sint quos sapie','Ut eveniet et animi',77,51,7,45,0),
+(85,'Ladybug Mouse ','Ladybug Mouse ','il marche bien',20,5,3,45,0),
 (95,'Iphone 14','Nostrud molestias at','test test',84,84,5,87,0),
 (102,'September Barlow','Enim sint quos sapie','Ut eveniet et animi',77,51,7,45,1),
 (103,'Iphone 14','Nostrud molestias at','test test',84,84,5,87,2),
@@ -329,7 +322,87 @@ INSERT INTO `product` VALUES
 (118,'September Barlow','Enim sint quos sapie','Ut eveniet et animi',77,51,7,45,0),
 (128,'AIrpods MAx','airpods-max','Le casque tel que vous le connaissez a été complètement repensé. Des coussinets jusqu’au sommet de l’arceau, les AirPods Max sont conçus pour s’ajuster parfaitement sur toutes les formes de tête de façon à offrir une isolation acoustique optimale. De quoi vous immerger pleinement dans le son.',629,300,7,94,18),
 (134,'az','pp','Aut r',81,98,7,108,2),
-(254,'Airpods Max','airpods-max','Le casque tel que vous le connaissez a été complètement repensé. Des coussinets jusqu’au sommet de l’arceau, les AirPods Max sont conçus pour s’ajuster parfaitement sur toutes les formes de tête de façon à offrir une isolation acoustique optimale. De quoi vous immerger pleinement dans le son.',629,300,7,94,27);
+(173,'the_nom','slug','description',10,20,7,45,0),
+(174,'super téléhpone','slug','description',10,20,7,45,0),
+(175,'Iona Brock','Iusto molestias aute','Et vitae laboriosam',12,48,1,45,0),
+(249,'string','string','string',0,0,1,45,0),
+(253,'Beau Mercado','Deserunt molestiae e','Quidem sunt quo volu',89,51,3,45,3),
+(254,'Airpods Max','airpods-max','Le casque tel que vous le connaissez a été complètement repensé. Des coussinets jusqu’au sommet de l’arceau, les AirPods Max sont conçus pour s’ajuster parfaitement sur toutes les formes de tête de façon à offrir une isolation acoustique optimale. De quoi vous immerger pleinement dans le son.',629,300,7,94,27),
+(255,'Orla Lane','Magna sit labore su','Qui autem ex ratione',50,70,7,45,0),
+(259,'Anthony Foreman','slug','description',10,20,7,45,110),
+(260,'AMD Ryzen 5 5600X Wraith Stealth (3.7 GHz / 4.6 GHz)','AMD_Ryzen_5_5600X_Wraith_Stealth_(3.7_GHz_/_4.6_GHz)','description',239.95,1,2,45,0),
+(261,'AMD Ryzen 5 5500 Wraith Stealth (3.6 GHz / 4.2 GHz)','AMD_Ryzen_5_5500_Wraith_Stealth_(3.6_GHz_/_4.2_GHz)','description',157.96,1,2,45,0),
+(262,'AMD Ryzen 7 5800X (3.8 GHz / 4.7 GHz)','AMD_Ryzen_7_5800X_(3.8_GHz_/_4.7_GHz)','description',339.95,1,2,45,0),
+(263,'AMD Ryzen 7 5700X (3.4 GHz / 4.6 GHz)','AMD_Ryzen_7_5700X_(3.4_GHz_/_4.6_GHz)','description',319.95,1,2,45,0),
+(264,'Intel Core i7-12700K (3.6 GHz / 5.0 GHz)','Intel_Core_i7-12700K_(3.6_GHz_/_5.0_GHz)','description',569.95,1,2,45,0),
+(265,'AMD Ryzen 5 3600 (3.6 GHz / 4.2 GHz)','AMD_Ryzen_5_3600_(3.6_GHz_/_4.2_GHz)','description',179.95,1,2,45,0),
+(266,'AMD Ryzen 9 5900X (3.7 GHz / 4.8 GHz)','AMD_Ryzen_9_5900X_(3.7_GHz_/_4.8_GHz)','description',489.95,1,2,45,0),
+(267,'Intel Core i5-12400F (2.5 GHz / 4.4 GHz)','Intel_Core_i5-12400F_(2.5_GHz_/_4.4_GHz)','description',239.95,1,2,45,0),
+(268,'Intel Core i5-12600K (3.7 GHz / 4.9 GHz)','Intel_Core_i5-12600K_(3.7_GHz_/_4.9_GHz)','description',399.95,1,2,45,0),
+(269,'Intel Core i7-12700KF (3.6 GHz / 5.0 GHz)','Intel_Core_i7-12700KF_(3.6_GHz_/_5.0_GHz)','description',549.95,1,2,45,0),
+(270,'Intel Core i5-12600KF (3.7 GHz / 4.9 GHz)','Intel_Core_i5-12600KF_(3.7_GHz_/_4.9_GHz)','description',369.95,1,2,45,0),
+(271,'AMD Ryzen 5 4500 Wraith Stealth (3.6 GHz / 4.1 GHz)','AMD_Ryzen_5_4500_Wraith_Stealth_(3.6_GHz_/_4.1_GHz)','description',144.95,1,2,45,0),
+(272,'AMD Ryzen 5 5600G Wraith Stealth (3.9 GHz / 4.4 GHz)','AMD_Ryzen_5_5600G_Wraith_Stealth_(3.9_GHz_/_4.4_GHz)','description',199.95,1,2,45,0),
+(273,'Intel Core i5-11400F (2.6 GHz / 4.4 GHz)','Intel_Core_i5-11400F_(2.6_GHz_/_4.4_GHz)','description',199.96,1,2,45,0),
+(274,'AMD Ryzen 3 3200G (3.6 GHz / 4 GHz)','AMD_Ryzen_3_3200G_(3.6_GHz_/_4_GHz)','description',124.95,1,2,45,0),
+(275,'Intel Core i5-10400F (2.9 GHz / 4.3 GHz)','Intel_Core_i5-10400F_(2.9_GHz_/_4.3_GHz)','description',165.95,1,2,45,0),
+(276,'AMD Ryzen 7 5700G Wraith Stealth (3.8 GHz / 4.6 GHz)','AMD_Ryzen_7_5700G_Wraith_Stealth_(3.8_GHz_/_4.6_GHz)','description',329.95,1,2,45,0),
+(277,'Intel Core i7-11700K (3.6 GHz / 5.0 GHz)','Intel_Core_i7-11700K_(3.6_GHz_/_5.0_GHz)','description',469.96,1,2,45,0),
+(278,'Intel Core i9-11900K (3.5 GHz / 5.3 GHz)','Intel_Core_i9-11900K_(3.5_GHz_/_5.3_GHz)','description',579.95,1,2,45,0),
+(279,'Intel Core i5-12400 (2.5 GHz / 4.4 GHz)','Intel_Core_i5-12400_(2.5_GHz_/_4.4_GHz)','description',279.95,1,2,45,0),
+(280,'Intel Core i9-12900K (3.2 GHz / 5.2 GHz)','Intel_Core_i9-12900K_(3.2_GHz_/_5.2_GHz)','description',829.95,1,2,45,0),
+(281,'Intel Core i3-12100F (3.3 GHz / 4.3 GHz)','Intel_Core_i3-12100F_(3.3_GHz_/_4.3_GHz)','description',135.95,1,2,45,0),
+(282,'AMD Ryzen 5 5600 Wraith Stealth (3.5 GHz / 4.4 GHz)','AMD_Ryzen_5_5600_Wraith_Stealth_(3.5_GHz_/_4.4_GHz)','description',212.95,1,2,45,0),
+(283,'Intel Celeron G5905 (3.5 GHz)','Intel_Celeron_G5905_(3.5_GHz)','description',42.95,1,2,45,0),
+(284,'AMD Ryzen 5 4600G Wraith Stealth (3.7 GHz / 4.2 GHz)','AMD_Ryzen_5_4600G_Wraith_Stealth_(3.7_GHz_/_4.2_GHz)','description',199.94,1,2,45,0),
+(285,'AMD Ryzen 3 4100 Wraith Stealth (3.8 GHz / 4.0 GHz)','AMD_Ryzen_3_4100_Wraith_Stealth_(3.8_GHz_/_4.0_GHz)','description',119.95,1,2,45,0),
+(286,'AMD Ryzen 9 5950X (3.4 GHz / 4.9 GHz)','AMD_Ryzen_9_5950X_(3.4_GHz_/_4.9_GHz)','description',649.95,1,2,45,0),
+(287,'Intel Core i3-10100 (3.6 GHz / 4.3 GHz)','Intel_Core_i3-10100_(3.6_GHz_/_4.3_GHz)','description',159.95,1,2,45,0),
+(288,'Intel Core i5-10400 (2.9 GHz / 4.3 GHz)','Intel_Core_i5-10400_(2.9_GHz_/_4.3_GHz)','description',207.95,1,2,45,0),
+(289,'Intel Core i3-12100 (3.3 GHz / 4.3 GHz)','Intel_Core_i3-12100_(3.3_GHz_/_4.3_GHz)','description',169.96,1,2,45,0),
+(290,'Intel Core i5-11600K (3.9 GHz / 4.9 GHz)','Intel_Core_i5-11600K_(3.9_GHz_/_4.9_GHz)','description',299.95,1,2,45,0),
+(291,'Intel Core i7-12700F (2.1 GHz / 4.9 GHz)','Intel_Core_i7-12700F_(2.1_GHz_/_4.9_GHz)','description',439.95,1,2,45,0),
+(292,'Intel Core i5-12600 (3.3 GHz / 4.8 GHz)','Intel_Core_i5-12600_(3.3_GHz_/_4.8_GHz)','description',329.95,1,2,45,0),
+(293,'Intel Core i3-10100F (3.6 GHz / 4.3 GHz)','Intel_Core_i3-10100F_(3.6_GHz_/_4.3_GHz)','description',93.95,1,2,45,0),
+(294,'Intel Core i5-11600KF (3.9 GHz / 4.9 GHz)','Intel_Core_i5-11600KF_(3.9_GHz_/_4.9_GHz)','description',289.96,1,2,45,0),
+(295,'Intel Core i5-12500 (3.0 GHz / 4.6 GHz)','Intel_Core_i5-12500_(3.0_GHz_/_4.6_GHz)','description',299.95,1,2,45,0),
+(296,'Intel Core i7-11700F (2.5 GHz / 4.9 GHz)','Intel_Core_i7-11700F_(2.5_GHz_/_4.9_GHz)','description',409.96,1,2,45,0),
+(297,'AMD Ryzen 3 4100 (3.8 GHz / 4.0 GHz)','AMD_Ryzen_3_4100_(3.8_GHz_/_4.0_GHz)','description',115.96,1,2,45,0),
+(298,'Intel Core i7-10700KF (3.8 GHz / 5.1 GHz)','Intel_Core_i7-10700KF_(3.8_GHz_/_5.1_GHz)','description',379.94,1,2,45,0),
+(299,'Intel Core i7-12700 (2.1 GHz / 4.9 GHz)','Intel_Core_i7-12700_(2.1_GHz_/_4.9_GHz)','description',479.95,1,2,45,0),
+(300,'Intel Core i7-11700KF (3.6 GHz / 5.0 GHz)','Intel_Core_i7-11700KF_(3.6_GHz_/_5.0_GHz)','description',399.95,1,2,45,0),
+(301,'Intel Core i9-12900KF (3.2 GHz / 5.2 GHz)','Intel_Core_i9-12900KF_(3.2_GHz_/_5.2_GHz)','description',799.96,1,2,45,0),
+(302,'AMD Ryzen 5 PRO 5650G (3.9 GHz / 4.4 GHz)','AMD_Ryzen_5_PRO_5650G_(3.9_GHz_/_4.4_GHz)','description',225.95,1,2,45,0),
+(303,'Intel Core i5-11400 (2.6 GHz / 4.4 GHz)','Intel_Core_i5-11400_(2.6_GHz_/_4.4_GHz)','description',239.95,1,2,45,0),
+(304,'Intel Core i3-10105 (3.7 GHz / 4.4 GHz)','Intel_Core_i3-10105_(3.7_GHz_/_4.4_GHz)','description',149.95,1,2,45,0),
+(305,'Intel Core i7-10700F (2.9 GHz / 4.8 GHz)','Intel_Core_i7-10700F_(2.9_GHz_/_4.8_GHz)','description',339.95,1,2,45,0),
+(306,'Intel Pentium Gold G6405 (4.1 GHz) (Tray)','Intel_Pentium_Gold_G6405_(4.1_GHz)_(Tray)','description',71.95,1,2,45,0),
+(307,'Intel Core i9-10900K (3.7 GHz / 5.3 GHz)','Intel_Core_i9-10900K_(3.7_GHz_/_5.3_GHz)','description',549.95,1,2,45,0),
+(308,'Intel Core i5-10400 (2.9 GHz / 4.3 GHz) (Bulk)','Intel_Core_i5-10400_(2.9_GHz_/_4.3_GHz)_(Bulk)','description',189.95,1,2,45,0),
+(309,'Intel Core i9-12900KS (3.4 GHz / 5.5 GHz)','Intel_Core_i9-12900KS_(3.4_GHz_/_5.5_GHz)','description',959.95,1,2,45,0),
+(310,'Intel Core i3-10105F (3.7 GHz / 4.4 GHz)','Intel_Core_i3-10105F_(3.7_GHz_/_4.4_GHz)','description',101.95,1,2,45,0),
+(311,'Intel Core i7-11700 (2.5 GHz / 4.9 GHz)','Intel_Core_i7-11700_(2.5_GHz_/_4.9_GHz)','description',439.95,1,2,45,0),
+(312,'Intel Core i5-10600KF (4.1 GHz / 4.8 GHz)','Intel_Core_i5-10600KF_(4.1_GHz_/_4.8_GHz)','description',239.95,1,2,45,0),
+(313,'Intel Celeron G6900 (3.4 GHz) (Bulk)','Intel_Celeron_G6900_(3.4_GHz)_(Bulk)','description',55.95,1,2,45,0),
+(314,'AMD Ryzen 7 5800X3D (3.4 GHz / 4.5 GHz)','AMD_Ryzen_7_5800X3D_(3.4_GHz_/_4.5_GHz)','description',569.95,1,2,45,0),
+(315,'Intel Core i9-12900 (2.4 GHz / 5.1 GHz)','Intel_Core_i9-12900_(2.4_GHz_/_5.1_GHz)','description',699.95,1,2,45,0),
+(316,'Intel Core i5-11500 (2.7 GHz / 4.6 GHz)','Intel_Core_i5-11500_(2.7_GHz_/_4.6_GHz)','description',248.95,1,2,45,0),
+(317,'AMD Ryzen 5 3600 (3.6 GHz / 4.2 GHz)','AMD_Ryzen_5_3600_(3.6_GHz_/_4.2_GHz)','description',179.95,1,2,45,0),
+(318,'Intel Core i5-11400 (2.6 GHz / 4.4 GHz) (Bulk)','Intel_Core_i5-11400_(2.6_GHz_/_4.4_GHz)_(Bulk)','description',224.95,1,2,45,0),
+(319,'Intel Core i7-10700K (3.8 GHz / 5.1 GHz)','Intel_Core_i7-10700K_(3.8_GHz_/_5.1_GHz)','description',429.95,1,2,45,0),
+(320,'Intel Pentium Gold G6405 (4.1 GHz)','Intel_Pentium_Gold_G6405_(4.1_GHz)','description',94.96,1,2,45,0),
+(321,'Intel Celeron G6900 (3.4 GHz)','Intel_Celeron_G6900_(3.4_GHz)','description',67.95,1,2,45,0),
+(322,'Intel Core i9-12900F (2.4 GHz / 5.1 GHz)','Intel_Core_i9-12900F_(2.4_GHz_/_5.1_GHz)','description',679.94,1,2,45,0),
+(323,'AMD Ryzen 5 PRO 4650G (3.7 GHz / 4.2 GHz)','AMD_Ryzen_5_PRO_4650G_(3.7_GHz_/_4.2_GHz)','description',219.95,1,2,45,0),
+(324,'Intel Core i7-10700 (2.9 GHz / 4.8 GHz)','Intel_Core_i7-10700_(2.9_GHz_/_4.8_GHz)','description',369.95,1,2,45,0),
+(325,'Intel Core i5-11600 (2.8 GHz / 4.8 GHz)','Intel_Core_i5-11600_(2.8_GHz_/_4.8_GHz)','description',263.95,1,2,45,0),
+(326,'Intel Core i5-10500 (3.1 GHz / 4.5 GHz)','Intel_Core_i5-10500_(3.1_GHz_/_4.5_GHz)','description',239.95,1,2,45,0),
+(327,'Intel Core i9-11900KF (3.5 GHz / 5.3 GHz)','Intel_Core_i9-11900KF_(3.5_GHz_/_5.3_GHz)','description',599.95,1,2,45,0),
+(328,'Intel Celeron G5925 (3.6 GHz)','Intel_Celeron_G5925_(3.6_GHz)','description',53.95,1,2,45,0),
+(329,'Intel Pentium G7400 (3.7 GHz)','Intel_Pentium_G7400_(3.7_GHz)','description',97.96,1,2,45,0),
+(330,'Intel Core i9-10900 (2.8 GHz / 5.2 GHz)','Intel_Core_i9-10900_(2.8_GHz_/_5.2_GHz)','description',539.95,1,2,45,110),
+(331,'Intel Core i9-10980XE Extreme Edition (3.0 GHz / 4.6 GHz)','Intel_Core_i9-10980XE_Extreme_Edition_(3.0_GHz_/_4.6_GHz)','description',1399.94,1,2,45,0),
+(332,'test','2','description',6,2,2,45,0);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -362,7 +435,6 @@ CREATE TABLE `user` (
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` VALUES
-(45,'nverdavtyan1994@gmail.com','[\"ROLE_ADMIN\"]','$2y$13$3tozPny11yPZvNAJB8mXT.MaJv829pVAOb8b2vNGzUekZR7ft7C76','Nver','Davtyan','132 avenue GAbriel Péri','93400','Saitn Ouen'),
 (48,'huvif@mailinator.com','[\"ROLE_USER\"]','$2y$13$RWkjT6pRPK0UG8DjY.NE/e3obbW74W7z93CW2mWM0/tUbOrfzLQ1e','Olga','Gillespie',NULL,NULL,NULL),
 (71,'gavejiz@mailinator.com','[\"ROLE_USER\"]','$2y$13$qSu9vwHAKs3AD7LRxo3ux.NhQAfo3Sfla2HY9JMeAGzF7GwYRrJ1i','Sigourney','Hendricks',NULL,NULL,NULL),
 (72,'gildas.le-drogoff@epitech.eu','[\"ROLE_ADMIN\"]','$2y$13$sPwcLUWCw1M.2utRwVecUe/9VLXN8yoy83kaVKBXCS7VYua/3XZiC','Gildas','Le Drogoff','24, rue pasteur','75000','Paris');
@@ -382,4 +454,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-08-24 14:56:38
+-- Dump completed on 2022-11-06 17:54:24
